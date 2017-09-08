@@ -1,0 +1,19 @@
+{
+  "name": "gongming_global",
+  "version": "1.0.0",
+  "description": "公明国际Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GengerJing/gongming_global.git"
+  },
+  "author": "lijingjing",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GengerJing/gongming_global/issues"
+  },
+  "homepage": "https://github.com/GengerJing/gongming_global#readme"
+}
