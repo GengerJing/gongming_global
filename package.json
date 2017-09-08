@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/GengerJing/gongming_global/issues"
   },
-  "homepage": "https://github.com/GengerJing/gongming_global#readme"
+  "homepage": "https://github.com/GengerJing/gongming_global#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "debug": "^3.0.1",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5"
+  }
 }
