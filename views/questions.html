@@ -1,7 +1,8 @@
 <% include header.html %>
 <% include sidenav.html %>
 
-    
+
+<input type="hidden" id="paper_id" value="<%= data.paper_id %>">
 <div class="content">
 
 		<div class="header">
@@ -61,7 +62,7 @@
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
 			url: '/list_question',
-			data: '',
+			data: JSON.stringify({paper_id: $("#paper_id").val()}),
 			success: function(result) {
 				if (result.code == 0) {
 					generateQuestionList(result.data)

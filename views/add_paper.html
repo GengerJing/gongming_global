@@ -47,6 +47,8 @@
               <input type="text" id="question_answer" class="input-xlarge">
               <label>分值</label>
               <input type="text" id="question_score" class="input-xlarge">
+              <label>所属试卷id</label>
+              <input type="text" id="question_paper_id" class="input-xlarge">
               <div>
                 <button id="add_question" class="btn btn-primary">添加</button>
               </div>
@@ -72,7 +74,6 @@
         contentType: "application/json; charset=utf-8",
         url: '/add_paper',
         data: JSON.stringify(paper),
-        dataType: "json",
         success: function(data) {
           console.log("试卷内容:", data)
           if (data.code == 0) {
@@ -96,6 +97,7 @@
         option4: $("#question_option4").val(),
         answer: $("#question_answer").val(),
         score: $("#question_score").val(),
+        paper_id: $("#question_paper_id").val(),
       }
       $.ajax({
         type: 'POST',
