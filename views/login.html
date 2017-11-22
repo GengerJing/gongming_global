@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bootstrap Admin</title>
+    <title>荟医 Admin</title>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -21,7 +21,7 @@
 
     <div class="navbar">
         <div class="navbar-inner">
-                <a class="brand" href="users"><span class="first">公司</span> <span class="second">名称</span></a>
+                <a class="brand" href="users"><span class="first">公司</span> <span class="second">荟医</span></a>
         </div>
     </div>
     
@@ -56,7 +56,7 @@
           url: '/sign_in',
           data: JSON.stringify(user),
           success: function(data) {
-            if (data.code === 0) {
+            if (data.code == 0) {
               window.location.href = "/papers"
               return
             }
