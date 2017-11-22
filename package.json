@@ -1,5 +1,5 @@
 {
-  "name": "gongming_global",
+  "name": "huiyi_admin",
   "version": "1.0.0",
   "description": "公明国际Server",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GengerJing/gongming_global.git"
+    "url": "git+https://github.com/GengerJing/huiyi_admin.git"
   },
   "author": "lijingjing",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/GengerJing/gongming_global/issues"
+    "url": "https://github.com/GengerJing/huiyi_admin/issues"
   },
-  "homepage": "https://github.com/GengerJing/gongming_global#readme",
+  "homepage": "https://github.com/GengerJing/huiyi_admin#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
     "compression": "^1.7.0",
