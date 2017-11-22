@@ -1,12 +1,25 @@
+const path = require('path')
 const express = require('express')
 const app = express()
 
 const cookie = require('cookie')
 
+
+app.set('views', path.join(__dirname, 'views'))
+app.engine( '.html', require( 'ejs' ).__express );
+app.set('view engine', 'html')
+
+// 静态文件
+app.use(require('compression')())
+app.use(express.static(path.join(__dirname, 'public')))
+
+
+// body解析中间件
 app.use(require('body-parser').json({
   strict: true, limit: '128mb'
 }))
 
+// 会话中间件
 const session = require('express-session')
 app.use(session({
   secret: 'secret',
@@ -17,53 +30,31 @@ app.use(session({
   }
 }))
 
-/*
- * 身份认证
- */
+// 身份认证
 app.use((req, res, next) => {
-  if (req.path === '/sign_in') {
+  if (req.path === '/sign_in' || req.path == '/login') {
     return next()
   }
-
   if (req.session.user) {
     return next()
   }
-
-  res.status(401).send('请先登录')
+  res.render('login')
 })
 
-const router = express.Router()
-router.post('/sign_in', (req, res, next) => {
 
-  var mock_user = {
-    username: 'jing',
-    password: '123',
-  }
-  var user = req.body
-  if (user.username === mock_user.username
-  && user.password === mock_user.password) {
-    req.session.user = user
-    return res.status(200).send('用户登录成功')
-  }
-  return res.status(401).send('用户登录失败')
-})
+app.use(require('./router'))
 
-router.post('/add_notice', (req, res, next) => {
-  res.status(200).send('success add notice')
-})
-
-app.use(router)
-
-
+// not found
 app.use((req, res, next) => {
   res.status(404).send('API path error，请联系管理员')
 })
 
+// error processor
 app.use((err, req, res, next) => {
   res.status(500).send('后端服务异常，请联系管理员, error:' + err)
 })
 
-
-app.listen(3000)
+app.listen(3001)
+console.log('app listen on 3001')
 
 
