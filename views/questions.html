@@ -1,12 +1,11 @@
 <% include header.html %>
 <% include sidenav.html %>
 
-
-
+    
 <div class="content">
 
 		<div class="header">
-				<h1 class="page-title">Paper List</h1>
+				<h1 class="page-title">Question List</h1>
 		</div>
 
 		<div class="container-fluid">
@@ -20,18 +19,21 @@
 					<table class="table">
 						<thead>
 						<tr>
-							<th>试卷id</th>
-							<th>试卷标题</th>
-							<th>试卷描述</th>
+							<th>题目id</th>
+							<th>题干</th>
+							<th>选项1</th>
+							<th>选项2</th>
+							<th>选项3</th>
+							<th>选项4</th>
+							<th>正确答案</th>
+							<th>分值</th>
 							<th>创建时间</th>
 							<th>修改时间</th>
 							<th>操作者</th>
 							<th style="width: 16px;"></th>
-							<th style="width: 16px;"></th>
-							<th style="width: 16px;"></th>
 						</tr>
 						</thead>
-						<tbody id="paper_list">
+						<tbody id="question_list">
 						</tbody>
 					</table>
 				</div>
@@ -49,13 +51,8 @@
 			</div>
 		</div>
 </div>
-<footer>
-<hr>
-<p class="pull-right">for <a href="#" title="公司名称" target="_blank">公司名称</a></p>
-<p>2017 <a href="#" target="_blank">lijingjing</a></p>
-</footer>
 
-
+<script src="../lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		console.log('--------')
@@ -63,11 +60,11 @@
 			type: 'POST',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
-			url: '/list_paper',
+			url: '/list_question',
 			data: '',
 			success: function(result) {
 				if (result.code == 0) {
-					generatePaperList(result.data)
+					generateQuestionList(result.data)
 					return
 				}
 				alert('获取试卷信息失败')
@@ -75,31 +72,31 @@
 		})
 	})
 
-	function generatePaperList(papers) {
+	function generateQuestionList(questions) {
 		var html = ''
-		papers.forEach(function(paper) {
+		questions.forEach(function(question) {
 			html += `<tr>
-			<td>${paper.id}</td>
-			<td>${paper.title}</td>
-			<td>${paper.desc}</td>
-			<td>${paper.created_time}</td>
-			<td>${paper.modified_time}</td>
-			<td>${paper.operator}</td>
+			<td>${question.id}</td>
+			<td>${question.stem}</td>
+			<td>${question.option1}</td>
+			<td>${question.option2}</td>
+			<td>${question.option3}</td>
+			<td>${question.option4}</td>
+			<td>${question.answer}</td>
+			<td>${question.score}</td>
+			<td>${question.created_time}</td>
+			<td>${question.modified_time}</td>
+			<td>${question.operator}</td>
 			<td>
-				<a href="get_paper?id=${paper.id}"><i class="icon-pencil"></i></a>
-			</td>
-			<td>
-				<a href="questions?id=${paper.id}"><i class="icon-th-list"></i></a>
-			</td>
-			<td>
-				<a href="preview_paper?id=${paper.id}"><i class="icon-file"></i></a>
+				<a href="get_question?id=${question.id}"><i class="icon-pencil"></i></a>
 			</td>
 		</tr>`
 		})
-		$("#paper_list").html(html);
+		$("#question_list").html(html);
 	}
 
 
 </script>
 <% include footer.html %>
+
 
