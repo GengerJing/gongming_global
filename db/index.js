@@ -12,7 +12,7 @@ var prod = {
   database : 'huiyi'
 }
 
-const connection = mysql.createConnection(prod)
+const connection = mysql.createConnection(dev)
 
 connection.connect()
 

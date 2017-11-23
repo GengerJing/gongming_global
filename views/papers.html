@@ -26,9 +26,10 @@
 							<th>创建时间</th>
 							<th>修改时间</th>
 							<th>操作者</th>
-							<th style="width: 16px;"></th>
-							<th style="width: 16px;"></th>
-							<th style="width: 16px;"></th>
+							<th style="width: 26px;">编辑</th>
+							<th style="width: 26px;">题目</th>
+							<th style="width: 26px;">预览</th>
+							<th style="width: 26px;">删除</th>
 						</tr>
 						</thead>
 						<tbody id="paper_list">
@@ -94,9 +95,33 @@
 			<td>
 				<a href="preview_paper?id=${paper.id}"><i class="icon-file"></i></a>
 			</td>
+			<td>
+				<a class="delete_paper" href="" id="${paper.id}"><i class="icon-remove"></i></a>
+			</td>
 		</tr>`
 		})
 		$("#paper_list").html(html);
+
+    $(".delete_paper").click(function() {
+      var r = confirm("确定要删除试卷");
+      if (r) {
+        $.ajax({
+          type: 'GET',
+          contentType: "application/json; charset=utf-8",
+          url: '/delete_paper?id=' + this.id,
+          data: '',
+          success: function (data) {
+            if (data.code == 0) {
+              alert("试卷删除成功")
+							location.reload()
+              return
+            }
+            alert("试卷删除失败")
+          }
+        })
+      }
+      return false
+    })
 	}
 
 

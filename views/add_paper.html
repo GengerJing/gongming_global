@@ -13,7 +13,7 @@
       <div class="well">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#add_paper_anchor" data-toggle="tab">Add Paper</a></li>
-          <li><a href="#add_question_anchor" data-toggle="tab">Add Question</a></li>
+          <!--<li><a href="#add_question_anchor" data-toggle="tab">Add Question</a></li>-->
         </ul>
         <div id="myTabContent" class="tab-content">
 
@@ -29,32 +29,6 @@
               </div>
             </form>
           </div>
-
-          <!--添加题目-->
-          <div class="tab-pane fade" id="add_question_anchor">
-            <form id="tab2">
-              <label>题干</label>
-              <textarea id="question_stem" value="" class="input-xlarge"></textarea>
-              <label>选项1</label>
-              <input type="text" id="question_option1" class="input-xlarge">
-              <label>选项2</label>
-              <input type="text" id="question_option2" class="input-xlarge">
-              <label>选项3</label>
-              <input type="text" id="question_option3" class="input-xlarge">
-              <label>选项4</label>
-              <input type="text" id="question_option4" class="input-xlarge">
-              <label>正确答案</label>
-              <input type="text" id="question_answer" class="input-xlarge">
-              <label>分值</label>
-              <input type="text" id="question_score" class="input-xlarge">
-              <label>所属试卷id</label>
-              <input type="text" id="question_paper_id" class="input-xlarge">
-              <div>
-                <button id="add_question" class="btn btn-primary">添加</button>
-              </div>
-            </form>
-          </div>
-        </div>
 
       </div>
 
@@ -82,35 +56,6 @@
           else {
             alert("试卷添加失败")
           }
-        }
-      })
-      return false
-    })
-
-
-    $("#add_question").click(function() {
-      var question = {
-        stem: $("#question_stem").val(),
-        option1: $("#question_option1").val(),
-        option2: $("#question_option2").val(),
-        option3: $("#question_option3").val(),
-        option4: $("#question_option4").val(),
-        answer: $("#question_answer").val(),
-        score: $("#question_score").val(),
-        paper_id: $("#question_paper_id").val(),
-      }
-      $.ajax({
-        type: 'POST',
-        contentType: "application/json; charset=utf-8",
-        url: '/add_question',
-        data: JSON.stringify(question),
-        success: function(data) {
-          console.log("题目内容:", data)
-          if (data.code == 0) {
-            alert("题目添加成功")
-            return
-          }
-          alert("题目添加失败")
         }
       })
       return false

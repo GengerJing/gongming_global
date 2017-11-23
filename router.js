@@ -2,6 +2,7 @@ const express = require('express')
 // 路由
 const router = express.Router()
 
+const moment = require('moment')
 const paper = require('./service/paper')
 const question = require('./service/question')
 
@@ -53,7 +54,7 @@ router.get('/get_paper', (req, res, next) => {
     if (!result || result.length <= 0) {
       return res.status(200).send({code: -1, message: '获取试卷信息失败'})
     }
-    res.render('update_paper', {type: 'paper', data: result[0]})
+    res.render('update_paper', {data: result[0]})
   })
 })
 
@@ -66,7 +67,7 @@ router.get('/get_question', (req, res, next) => {
     if (!result || result.length <= 0) {
       return res.status(200).send({code: -1, message: '获取题目信息失败'})
     }
-    res.render('update_paper', {type: 'question', data: result[0]})
+    res.render('update_question', {data: result[0]})
   })
 })
 
@@ -76,6 +77,10 @@ router.post('/list_paper', (req, res, next) => {
     if (err) {
       return res.status(200).send({code: -1, message: err.message})
     }
+    result.forEach(r => {
+      r.created_time = moment(r.created_time).format('YYYY-MM-DD HH:mm:ss')
+      r.modified_time = moment(r.modified_time).format('YYYY-MM-DD HH:mm:ss')
+    })
     res.status(200).send({code: 0, data: result})
   })
 })
@@ -86,6 +91,10 @@ router.post('/list_question', (req, res, next) => {
     if (err) {
       return res.status(200).send({code: -1, message: err.message})
     }
+    result.forEach(r => {
+      r.created_time = moment(r.created_time).format('YYYY-MM-DD HH:mm:ss')
+      r.modified_time = moment(r.modified_time).format('YYYY-MM-DD HH:mm:ss')
+    })
     res.status(200).send({code: 0, data: result})
   })
 })
@@ -102,6 +111,10 @@ router.post('/add_paper', (req, res, next) => {
   })
 })
 
+router.get('/add_question', (req, res) => {
+  res.render('add_question', {data: req.query})
+})
+
 // 添加题目（点击添加按钮）
 router.post('/add_question', (req, res, next) => {
   var doc = req.body
@@ -113,6 +126,25 @@ router.post('/add_question', (req, res, next) => {
     res.status(200).send({code: 0, data: result})
   })
 })
+
+router.get('/delete_paper', (req, res) => {
+  paper.deletePaper(req.query.id, function(err, result) {
+    if (err) {
+      return res.status(200).send({code: -1, message: err.message})
+    }
+    res.status(200).send({code: 0, data: result})
+  })
+})
+
+router.get('/delete_question', (req, res) => {
+  question.deleteQuestion(req.query.id, function(err, result) {
+    if (err) {
+      return res.status(200).send({code: -1, message: err.message})
+    }
+    res.status(200).send({code: 0, data: result})
+  })
+})
+
 
 // 更新试卷（点击更新按钮）
 router.post('/update_paper', (req, res, next) => {
