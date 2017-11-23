@@ -80,22 +80,23 @@
 	function generateQuestionList(questions) {
 		var html = ''
 		questions.forEach(function(question) {
-		  var answer = question.answer
-		  switch(question.answer) {
-				case 'option1':
-          answer = 'A'
-					break
-        case 'option2':
-          answer = 'B'
-          break
-        case 'option3':
-          answer = 'C'
-          break
-        case 'option4':
-          answer = 'D'
-          break
-			}
-
+		  var answers = []
+			question.answer.split(',').forEach(a => {
+			  switch(a) {
+					case 'option1':
+					  answers.push('A')
+						break
+          case 'option2':
+            answers.push('B')
+            break
+          case 'option3':
+            answers.push('C')
+            break
+          case 'option4':
+            answers.push('D')
+            break
+				}
+			})
 
 			html += `<tr>
 			<td>${question.id}</td>
@@ -104,7 +105,7 @@
 			<td>${question.option2}</td>
 			<td>${question.option3}</td>
 			<td>${question.option4}</td>
-			<td>${answer}</td>
+			<td>${answers}</td>
 			<td>${question.score}</td>
 			<td>${question.created_time}</td>
 			<td>${question.modified_time}</td>
