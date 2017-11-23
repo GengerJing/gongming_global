@@ -1,0 +1,110 @@
+<% include header.html %>
+<% include sidenav.html %>
+
+
+<div class="content">
+
+  <div class="header">
+    <h1 class="page-title">Update Question</h1>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row-fluid">
+
+      <div class="well">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#add_question_anchor" data-toggle="tab">Update Question</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+
+            <!--update题目-->
+            <div class="tab-pane active in" id="add_question_anchor">
+              <form id="tab2">
+                <input type="hidden" id="question_id" value="<%= data.id %>" class="input-xlarge"><br>
+                题干:&nbsp;
+                <textarea id="question_stem" class="input-xlarge"><%= data.stem %></textarea><br>
+                A:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" id="question_option1" value="<%= data.option1 %>" class="input-xlarge"><br>
+                B:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" id="question_option2" value="<%= data.option2 %>" class="input-xlarge"><br>
+                C:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" id="question_option3" value="<%= data.option3 %>" class="input-xlarge"><br>
+                D:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" id="question_option4" value="<%= data.option4 %>" class="input-xlarge"><br><br>
+                正确答案&nbsp;:
+                <% if (data.answer.indexOf('option1') > -1) { %>
+                A &nbsp;<input type="checkbox" name="question_answer" value="option1" checked>
+                <% } else { %>
+                A &nbsp;<input type="checkbox" name="question_answer" value="option1">
+                <% } %>
+
+                <% if (data.answer.indexOf('option2') > -1) { %>
+                B &nbsp;<input type="checkbox" name="question_answer" value="option2" checked>
+                <% } else { %>
+                B &nbsp;<input type="checkbox" name="question_answer" value="option2">
+                <% } %>
+
+                <% if (data.answer.indexOf('option3') > -1) { %>
+                C &nbsp;<input type="checkbox" name="question_answer" value="option3" checked>
+                <% } else { %>
+                C &nbsp;<input type="checkbox" name="question_answer" value="option3">
+                <% } %>
+
+                <% if (data.answer.indexOf('option4') > -1) { %>
+                D &nbsp;<input type="checkbox" name="question_answer" value="option4" checked>
+                <% } else { %>
+                D &nbsp;<input type="checkbox" name="question_answer" value="option4">
+                <% } %>
+                <br/><br/>
+                分值: &nbsp;
+                <input type="text" id="question_score" value="<%= data.score %>" class="input-xlarge">
+                <div>
+                  <button id="update_question" class="btn btn-primary">更新</button>
+                </div>
+              </form>
+            </div>
+            <!--update题目 end-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#update_question").click(function () {
+      var answer = []
+      $('input[name="question_answer"]:checked').each(function(){
+        answer.push($(this).val());
+      })
+      var question = {
+        id: $("#question_id").val(),
+        stem: $("#question_stem").val(),
+        option1: $("#question_option1").val(),
+        option2: $("#question_option2").val(),
+        option3: $("#question_option3").val(),
+        option4: $("#question_option4").val(),
+        answer: answer.join(','),
+        score: $("#question_score").val(),
+      }
+      $.ajax({
+        type: 'POST',
+        contentType: "application/json; charset=utf-8",
+        url: '/update_question',
+        data: JSON.stringify(question),
+        success: function (data) {
+          console.log("题目内容:", data)
+          if (data.code == 0) {
+            alert("题目更新成功")
+            return
+          }
+          alert("题目更新失败")
+        }
+      })
+      return false
+    })
+  })
+</script>
+
+<% include footer.html %>

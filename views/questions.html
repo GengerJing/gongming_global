@@ -1,0 +1,149 @@
+<% include header.html %>
+<% include sidenav.html %>
+
+
+<input type="hidden" id="paper_id" value="<%= data.paper_id %>">
+<div class="content">
+
+		<div class="header">
+				<h1 class="page-title">Question List</h1>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row-fluid">
+
+				<div class="btn-toolbar">
+					<button class="btn btn-primary" id="add_question"><i class="icon-plus"></i> Add Question</button>
+				</div>
+
+				<div class="well">
+					<table class="table">
+						<thead>
+						<tr>
+							<th>题目id</th>
+							<th>题干</th>
+							<th>A</th>
+							<th>B</th>
+							<th>C</th>
+							<th>D</th>
+							<th>正确答案</th>
+							<th>分值</th>
+							<th>创建时间</th>
+							<th>修改时间</th>
+							<th>操作者</th>
+							<th style="width: 26px;">编辑</th>
+							<th style="width: 26px;">删除</th>
+						</tr>
+						</thead>
+						<tbody id="question_list">
+						</tbody>
+					</table>
+				</div>
+				<!--<div class="pagination">-->
+					<!--<ul>-->
+						<!--<li><a href="#">Prev</a></li>-->
+						<!--<li><a href="#">1</a></li>-->
+						<!--<li><a href="#">2</a></li>-->
+						<!--<li><a href="#">3</a></li>-->
+						<!--<li><a href="#">4</a></li>-->
+						<!--<li><a href="#">Next</a></li>-->
+					<!--</ul>-->
+				<!--</div>-->
+
+			</div>
+		</div>
+</div>
+
+<script src="../lib/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.ajax({
+			type: 'POST',
+			dataType: 'json',
+			contentType: "application/json; charset=utf-8",
+			url: '/list_question',
+			data: JSON.stringify({paper_id: $("#paper_id").val()}),
+			success: function(result) {
+				if (result.code == 0) {
+					generateQuestionList(result.data)
+					return
+				}
+				alert('获取试卷信息失败')
+			}
+		})
+
+		$("#add_question").click(function() {
+			window.location.href = '/add_question?paper_id=' + $("#paper_id").val()
+		})
+	})
+
+	function generateQuestionList(questions) {
+		var html = ''
+		questions.forEach(function(question) {
+		  var answers = []
+			question.answer.split(',').forEach(a => {
+			  switch(a) {
+					case 'option1':
+					  answers.push('A')
+						break
+          case 'option2':
+            answers.push('B')
+            break
+          case 'option3':
+            answers.push('C')
+            break
+          case 'option4':
+            answers.push('D')
+            break
+				}
+			})
+
+			html += `<tr>
+			<td>${question.id}</td>
+			<td>${question.stem}</td>
+			<td>${question.option1}</td>
+			<td>${question.option2}</td>
+			<td>${question.option3}</td>
+			<td>${question.option4}</td>
+			<td>${answers}</td>
+			<td>${question.score}</td>
+			<td>${question.created_time}</td>
+			<td>${question.modified_time}</td>
+			<td>${question.operator}</td>
+			<td>
+				<a href="get_question?id=${question.id}"><i class="icon-pencil"></i></a>
+			</td>
+			<td>
+				<a class="delete_question" href="" id="${question.id}"><i class="icon-remove"></i></a>
+			</td>
+		</tr>`
+		})
+		$("#question_list").html(html);
+
+		$(".delete_question").click(function() {
+      var r = confirm("确定要删除题目");
+      if (r) {
+        $.ajax({
+          type: 'GET',
+          contentType: "application/json; charset=utf-8",
+          url: '/delete_question?id=' + this.id,
+          data: '',
+          success: function (data) {
+            if (data.code == 0) {
+              alert("题目删除成功")
+              location.reload()
+              return
+            }
+            alert("题目删除失败")
+          }
+				})
+      }
+			return false
+		})
+	}
+
+
+</script>
+<% include footer.html %>
+
+

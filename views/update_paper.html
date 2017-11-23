@@ -1,10 +1,11 @@
 <% include header.html %>
 <% include sidenav.html %>
 
+
 <div class="content">
 
   <div class="header">
-    <h1 class="page-title">Add Paper</h1>
+    <h1 class="page-title">Update Paper</h1>
   </div>
 
   <div class="container-fluid">
@@ -12,49 +13,56 @@
 
       <div class="well">
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#add_paper_anchor" data-toggle="tab">Add Paper</a></li>
-          <!--<li><a href="#add_question_anchor" data-toggle="tab">Add Question</a></li>-->
+          <li class="active"><a href="#add_paper_anchor" data-toggle="tab">Update Paper</a></li>
+          <!--<li><a href="#add_question_anchor" data-toggle="tab">Update Question</a></li>-->
+
+
         </ul>
         <div id="myTabContent" class="tab-content">
 
-          <!--添加试卷-->
+          <!--update试卷-->
           <div class="tab-pane active in" id="add_paper_anchor">
             <form id="tab">
+              <input type="hidden" id="paper_id" value="<%= data.id %>" class="input-xlarge">
               <label>试卷标题</label>
-              <input type="text" id="paper_title" value="" class="input-xlarge">
+              <input type="text" id="paper_title" value="<%= data.title %>" class="input-xlarge">
               <label>试卷描述</label>
-              <textarea id="paper_desc" value="" class="input-xlarge"></textarea>
+              <textarea id="paper_desc" class="input-xlarge"><%= data.desc %></textarea>
               <div>
-                <button id="add_paper" class="btn btn-primary">添加</button>
+                <button id="update_paper" class="btn btn-primary">更新</button>
               </div>
             </form>
           </div>
+            <!--update试卷 end-->
 
+          </div>
+        </div>
       </div>
-
     </div>
   </div>
 </div>
-</div>
+
 <script type="text/javascript">
-  $(document).ready(function(){
-    $("#add_paper").click(function() {
+  $(document).ready(function () {
+    $("#update_paper").click(function () {
       var paper = {
+        id: $("#paper_id").val(),
         title: $("#paper_title").val(),
         desc: $("#paper_desc").val(),
       }
       $.ajax({
         type: 'POST',
         contentType: "application/json; charset=utf-8",
-        url: '/add_paper',
+        url: '/update_paper',
         data: JSON.stringify(paper),
-        success: function(data) {
+        dataType: "json",
+        success: function (data) {
           console.log("试卷内容:", data)
           if (data.code == 0) {
-            alert("试卷添加成功")
+            alert("试卷更新成功")
           }
           else {
-            alert("试卷添加失败")
+            alert("试卷更新失败")
           }
         }
       })

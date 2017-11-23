@@ -32,6 +32,8 @@ app.use(session({
 
 // 身份认证
 app.use((req, res, next) => {
+  //rm
+  console.log('--------', req.path, req.body)
   if (req.path === '/sign_in' || req.path == '/login') {
     return next()
   }
